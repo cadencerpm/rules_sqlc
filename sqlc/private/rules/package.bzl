@@ -118,6 +118,10 @@ sqlc_package = rule(
             default = False,
             doc = "If true, slices returned by :many queries will be empty instead of nil",
         ),
+        "emit_result_struct_pointers": attr.bool(
+            default = False,
+            doc = "If true, query results are returned as pointers to structs. Queries returning multiple results are returned as slices of pointers",
+        ),
     },
     doc = """
 sqlc generates **fully type-safe idiomatic Go code** from SQL.
