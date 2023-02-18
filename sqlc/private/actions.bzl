@@ -71,6 +71,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                 name = params.package or ctx.label.name,
                 engine = params.engine,
                 emit_empty_slices = params.emit_empty_slices,
+                emit_result_struct_pointers = params.emit_result_struct_pointers,
                 emit_exact_table_names = params.emit_exact_table_names,
                 emit_interface = params.emit_interface,
                 emit_json_tags = params.emit_json_tags,
