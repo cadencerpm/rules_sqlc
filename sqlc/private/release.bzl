@@ -136,7 +136,7 @@ _sqlc_download_release = repository_rule(
     attrs = {
         "goos": attr.string(),
         "goarch": attr.string(),
-        "urls": attr.string_list(default = ["https://github.com/kyleconroy/sqlc/releases/download/v{}/{}"]),
+        "urls": attr.string_list(default = ["https://github.com/cadencerpm/rules_sqlc/releases/download/v{}/{}"]),
         "version": attr.string(),
     },
 )
