@@ -57,7 +57,7 @@ sqlc_register_toolchains()
 ```
 
 ## Usage
-In order to generate a Go package called `database`, use the following
+In order to generate a Go/Python package called `database`, use the following
 `sql_package` rule.
 
 ```Starlark
@@ -68,6 +68,7 @@ sqlc_package(
     package = "database",
     queries = ["query.sql"],
     schema = ["schema.sql"],
+    gen_lang = "python" or "go", # default is "go"
 )
 ```
 
