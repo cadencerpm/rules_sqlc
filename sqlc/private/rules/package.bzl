@@ -135,7 +135,12 @@ sqlc_package = rule(
             default = "go",
             doc = "The language to generate code for",
             values = ["go", "python"],
-        )
+        ),
+        "py_wasm_plugin": attr.label(
+            doc = "The path to the sqlc wasm plugin for python",
+            default = str(Label("@sqlc_gen_python_wasm//file")),
+            allow_single_file = True,
+        ),
     },
     doc = """
 sqlc generates **fully type-safe idiomatic Go code** from SQL.
