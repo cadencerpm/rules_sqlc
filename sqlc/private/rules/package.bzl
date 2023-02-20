@@ -46,20 +46,29 @@ def _sqlc_package_impl(ctx):
         config_path_depth = config_path_depth,
     )
 
-    # SQLC outputs one schema(db) file, one models file, one additional file if
-    # the interface is requested, and one file for each query file.
-    schema_file = ctx.actions.declare_file(target_prefix + "db.go")
-    models_file = ctx.actions.declare_file(target_prefix + "models.go")
-    outputs = [schema_file, models_file]
+    if ctx.attr.gen_lang == "go":
+        schema_file = ctx.actions.declare_file(target_prefix + "db.go")
+        models_file = ctx.actions.declare_file(target_prefix + "models.go")
+        outputs = [schema_file, models_file]
 
-    if ctx.attr.emit_interface:
-        interface_file = ctx.actions.declare_file(target_prefix + "querier.go")
-        outputs.append(interface_file)
+        if ctx.attr.emit_interface:
+            interface_file = ctx.actions.declare_file(target_prefix + "querier.go")
+            outputs.append(interface_file)
 
-    for query_file in ctx.files.queries:
-        outputs.append(ctx.actions.declare_file(target_prefix + query_file.basename + ".go"))
+        for query_file in ctx.files.queries:
+            outputs.append(ctx.actions.declare_file(target_prefix + query_file.basename + ".go"))
+
+    elif ctx.attr.gen_lang == "python":
+        models_file = ctx.actions.declare_file(target_prefix + "models.py")
+        outputs = [models_file]
+
+        for query_file in ctx.files.queries:
+            outputs.append(ctx.actions.declare_file(target_prefix + query_file.basename.split("/")[0].split(".")[0] + ".py"))
+    else:
+        fail("Unsupported language: %s" % ctx.attr.gen_lang)
 
     compile_sources = [json_config] + ctx.files.queries + ctx.files.schema
+
     sqlc_compile(
         ctx,
         config_file = json_config,
@@ -122,6 +131,11 @@ sqlc_package = rule(
             default = False,
             doc = "If true, query results are returned as pointers to structs. Queries returning multiple results are returned as slices of pointers",
         ),
+        "gen_lang": attr.string(
+            default = "go",
+            doc = "The language to generate code for",
+            values = ["go", "python"],
+        )
     },
     doc = """
 sqlc generates **fully type-safe idiomatic Go code** from SQL.
