@@ -63,42 +63,55 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                     db_type = type_,
                 ))
 
-    if versions.is_at_least("1.5.0", toolchain_version):
-        config = struct(
-            version = "1",
-            overrides = overrides,
-            packages = [struct(
-                name = params.package or ctx.label.name,
-                engine = params.engine,
-                emit_empty_slices = params.emit_empty_slices,
-                emit_result_struct_pointers = params.emit_result_struct_pointers,
-                emit_exact_table_names = params.emit_exact_table_names,
-                emit_interface = params.emit_interface,
-                emit_json_tags = params.emit_json_tags,
-                emit_prepared_queries = params.emit_prepared_queries,
-                path = ".",
-                # TODO(Windows) Figure out path handling for windows
-                queries = ["{}/{}".format(back_to_root, p) for p in queries],
-                schema = ["{}/{}".format(back_to_root, p) for p in schemas],
-            )],
-        ).to_json()
-    else:
-        config = struct(
-            version = "1",
-            overrides = overrides,
-            packages = [struct(
-                name = params.package or ctx.label.name,
-                engine = params.engine,
-                emit_exact_table_names = params.emit_exact_table_names,
-                emit_interface = params.emit_interface,
-                emit_json_tags = params.emit_json_tags,
-                emit_prepared_queries = params.emit_prepared_queries,
-                path = ".",
-                # TODO(Windows) Figure out path handling for windows
-                queries = ["{}/{}".format(back_to_root, p) for p in queries],
-                schema = ["{}/{}".format(back_to_root, p) for p in schemas],
-            )],
-        ).to_json()
+    if versions.is_at_least("1.17.0", toolchain_version):
+        if params.gen_lang == "python":
+            config = struct(
+                version = "2",
+                plugins = [struct(
+                    name = "py",
+                    wasm = struct(
+                        url = "file://{}/{}".format(back_to_root, ctx.files.py_wasm_plugin[0].path),
+                        sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b"
+                    ),
+                )],
+                sql = [struct(
+                    queries = ["{}/{}".format(back_to_root, p) for p in queries],
+                    schema = ["{}/{}".format(back_to_root, p) for p in schemas],
+                    engine = params.engine,
+                    codegen = [struct(
+                        out = '.',
+                        plugin = "py",
+                        options = struct(
+                            package = params.package or ctx.label.name,
+                            emit_exact_table_names = params.emit_exact_table_names,
+                            emit_async_querier = True,
+                            emit_sync_querier = True,
+                            emit_pydantic_models = True,
+                        )
+                    )]
+                )]
+            ).to_json()
+        if params.gen_lang == "go":
+            config = struct(
+                version = "2",
+                sql = [struct(
+                    queries = ["{}/{}".format(back_to_root, p) for p in queries],
+                    schema = ["{}/{}".format(back_to_root, p) for p in schemas],
+                    engine = params.engine,
+                    gen = struct(
+                        go = struct(
+                            out = '.',
+                            package = params.package or ctx.label.name,
+                            emit_empty_slices = params.emit_empty_slices,
+                            emit_result_struct_pointers = params.emit_result_struct_pointers,
+                            emit_exact_table_names = params.emit_exact_table_names,
+                            emit_interface = params.emit_interface,
+                            emit_json_tags = params.emit_json_tags,
+                            emit_prepared_queries = params.emit_prepared_queries,
+                        )
+                    )
+                )]
+            ).to_json()
 
     ctx.actions.write(out, config)
 
@@ -116,7 +129,7 @@ def sqlc_compile(ctx, config_file, config_path_depth, srcs, out):
     ctx.actions.run_shell(
         tools = [toolchain.release.sqlc],
         # TODO(Windows) Figure out path handling for windows
-        command = "cd {} && {}/{} generate".format(
+        command = "cd {} && HOME=$(PWD) {}/{} generate".format(
             config_file.dirname,
             back_to_root,
             toolchain.release.sqlc.path,

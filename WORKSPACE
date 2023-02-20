@@ -24,6 +24,7 @@
 # It's also the name used in labels that refer to this workspace
 # (for example @rules_go_simple//:deps.bzl).
 workspace(name = "com_plezentek_rules_sqlc")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
 load("@com_plezentek_rules_sqlc//sqlc:deps.bzl", "sqlc_register_toolchains", "sqlc_rules_dependencies")
 
@@ -3368,3 +3369,11 @@ go_repository(
 )
 
 gazelle_dependencies()
+
+# WASM python plugin
+http_file(
+    name = "sqlc_gen_python_wasm",
+    executable = False,
+    sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b",
+    urls = ["https://github.com/tabbed/sqlc-gen-python/releases/download/v1.0.0/sqlc-gen-python_1.0.0.wasm"],
+)
