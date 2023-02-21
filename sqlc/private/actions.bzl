@@ -129,7 +129,7 @@ def sqlc_compile(ctx, config_file, config_path_depth, srcs, out):
     ctx.actions.run_shell(
         tools = [toolchain.release.sqlc],
         # TODO(Windows) Figure out path handling for windows
-        command = "cd {} && HOME=$(PWD) {}/{} generate".format(
+        command = "cd {} && HOME=$(pwd) {}/{} generate".format(
             config_file.dirname,
             back_to_root,
             toolchain.release.sqlc.path,
