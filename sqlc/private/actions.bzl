@@ -127,7 +127,7 @@ def sqlc_compile(ctx, config_file, config_path_depth, srcs, out):
     back_to_root = "/".join([".."] * config_path_depth)
 
     ctx.actions.run_shell(
-        tools = [toolchain.release.sqlc],
+        tools = [toolchain.release.sqlc, ctx.files.py_wasm_plugin[0]],
         # TODO(Windows) Figure out path handling for windows
         command = "cd {} && HOME=$(pwd) {}/{} generate".format(
             config_file.dirname,
