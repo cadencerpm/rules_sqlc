@@ -38,14 +38,13 @@ def sqlc_rules_dependencies():
         sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44",
     )
 
+    # WASM python plugin
     _maybe(
-        # WASM python plugin
-        http_file(
-            name = "sqlc_gen_python_wasm",
-            executable = False,
-            sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b",
-            urls = ["https://github.com/tabbed/sqlc-gen-python/releases/download/v1.0.0/sqlc-gen-python_1.0.0.wasm"],
-        )
+        http_file,
+        name = "sqlc_gen_python_wasm",
+        executable = False,
+        sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b",
+        urls = ["https://github.com/tabbed/sqlc-gen-python/releases/download/v1.0.0/sqlc-gen-python_1.0.0.wasm"],
     )
 
 def _maybe(repo_rule, name, **kwargs):
