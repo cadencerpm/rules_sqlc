@@ -127,7 +127,7 @@ def _sqlc_download_release_impl(ctx):
     # Get the binary tool
     ctx.report_progress("downloading")
     ctx.download_and_extract(
-        url = [url.format(version, filename) for url in ctx.attr.urls],
+        url = [url.format(filename) for url in ctx.attr.urls],
         sha256 = sha256,
     )
 
@@ -136,7 +136,7 @@ _sqlc_download_release = repository_rule(
     attrs = {
         "goos": attr.string(),
         "goarch": attr.string(),
-        "urls": attr.string_list(default = ["https://github.com/cadencerpm/rules_sqlc/releases/download/v{}/{}"]),
+        "urls": attr.string_list(default = ["https://github.com/cadencerpm/rules_sqlc/releases/download/v1.17.0/{}"]),
         "version": attr.string(),
     },
 )
