@@ -86,7 +86,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                             emit_exact_table_names = params.emit_exact_table_names,
                             emit_async_querier = True,
                             emit_sync_querier = True,
-                            emit_pydantic_models = True,
+                            emit_pydantic_models = False,
                         )
                     )]
                 )]
