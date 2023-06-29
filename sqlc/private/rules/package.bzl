@@ -131,6 +131,10 @@ sqlc_package = rule(
             default = False,
             doc = "If true, query results are returned as pointers to structs. Queries returning multiple results are returned as slices of pointers",
         ),
+        "emit_methods_with_db_argument": attr.bool(
+            default = False,
+            doc = "If true, generated methods will accept a DBTX argument instead of storing a DBTX on the *Queries struct.",
+        ),
         "gen_lang": attr.string(
             default = "go",
             doc = "The language to generate code for",
