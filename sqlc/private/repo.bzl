@@ -43,8 +43,8 @@ def sqlc_rules_dependencies():
         http_file,
         name = "sqlc_gen_python_wasm",
         executable = False,
-        sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b",
-        urls = ["https://github.com/tabbed/sqlc-gen-python/releases/download/v1.0.0/sqlc-gen-python_1.0.0.wasm"],
+        sha256 = "ef58f143a8c116781091441770c7166caaf361dd645f62b8f05f462e9f95c3b2",
+        urls = ["https://github.com/sqlc-dev/sqlc-gen-python/releases/download/v1.1.0/sqlc-gen-python_1.1.0.wasm"],
     )
 
 def _maybe(repo_rule, name, **kwargs):
