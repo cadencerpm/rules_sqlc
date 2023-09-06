@@ -63,7 +63,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                     db_type = type_,
                 ))
 
-    if versions.is_at_least("1.20.0", toolchain_version):
+    if versions.is_at_least("1.19.0", toolchain_version):
         if params.gen_lang == "python":
             config = struct(
                 version = "2",
