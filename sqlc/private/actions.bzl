@@ -71,7 +71,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                     name = "py",
                     wasm = struct(
                         url = "file://{}/{}".format(back_to_root, ctx.files.py_wasm_plugin[0].path),
-                        sha256 = "ef58f143a8c116781091441770c7166caaf361dd645f62b8f05f462e9f95c3b2"
+                        sha256 = "aca83e1f59f8ffdc604774c2f6f9eb321a2b23e07dc83fc12289d25305fa065b"
                     ),
                 )],
                 sql = [struct(
