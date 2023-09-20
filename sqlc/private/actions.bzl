@@ -87,7 +87,8 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                             emit_async_querier = True,
                             emit_sync_querier = True,
                             emit_pydantic_models = False,
-                            strict_order_by = params.strict_order_by,
+                            strict_order_by = False,
+                            # strict_order_by = params.strict_order_by,
                         )
                     )]
                 )]
