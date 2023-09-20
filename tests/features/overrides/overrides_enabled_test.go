@@ -47,5 +47,6 @@ func TestModelShouldHaveTypesOverriden(t *testing.T) {
 		Type34: override.Type34,
 		Type38: override.Type38,
 	}
+	// remove me
 	t.Logf("Correctly compiled model with type overrides: %v", release)
 }
