@@ -143,7 +143,7 @@ sqlc_package = rule(
         ),
         "strict_order_by": attr.bool(
             default = True,
-            doc = "If true, during Python code generation, sqlc will error if an ORDER BY clause uses ambiguous column names",
+            doc = "If true, sqlc will error if an ORDER BY clause uses ambiguous column names",
         ),
     },
     doc = """
