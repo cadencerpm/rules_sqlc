@@ -78,6 +78,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                     queries = ["{}/{}".format(back_to_root, p) for p in queries],
                     schema = ["{}/{}".format(back_to_root, p) for p in schemas],
                     engine = params.engine,
+                    strict_order_by = params.strict_order_by,
                     codegen = [struct(
                         out = '.',
                         plugin = "py",
@@ -98,6 +99,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                     queries = ["{}/{}".format(back_to_root, p) for p in queries],
                     schema = ["{}/{}".format(back_to_root, p) for p in schemas],
                     engine = params.engine,
+                    strict_order_by = params.strict_order_by,
                     gen = struct(
                         go = struct(
                             out = '.',

@@ -141,6 +141,10 @@ sqlc_package = rule(
             default = str(Label("@sqlc_gen_python_wasm//file")),
             allow_single_file = True,
         ),
+        "strict_order_by": attr.bool(
+            default = True,
+            doc = "If true, sqlc will error if an ORDER BY clause uses ambiguous column names",
+        ),
     },
     doc = """
 sqlc generates **fully type-safe idiomatic Go code** from SQL.
