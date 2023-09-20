@@ -109,7 +109,6 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                             emit_interface = params.emit_interface,
                             emit_json_tags = params.emit_json_tags,
                             emit_prepared_queries = params.emit_prepared_queries,
-                            strict_order_by = params.strict_order_by,
                         )
                     )
                 )]
