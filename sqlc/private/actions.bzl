@@ -104,6 +104,7 @@ def sqlc_configure(ctx, params, queries, schemas, out, config_path_depth):
                         go = struct(
                             out = '.',
                             package = params.package or ctx.label.name,
+                            sql_package = params.sql_package,
                             emit_empty_slices = params.emit_empty_slices,
                             emit_result_struct_pointers = params.emit_result_struct_pointers,
                             emit_exact_table_names = params.emit_exact_table_names,

@@ -107,6 +107,10 @@ sqlc_package = rule(
         "overrides": attr.string_dict(
             doc = "A dictionary of type overrides mapping from type to package (e.g. \"uuid\":\"github.com/gofrs/uuid.UUID\" or \"uuid:nullable\":\"github.com/gofrs/uuid.UUID\" if nullable)",
         ),
+        "sql_package": attr.string(
+            default = "database/sql",
+            doc = "Either pgx/v4, pgx/v5 or database/sql. Defaults to database/sql",
+        ),
         "emit_json_tags": attr.bool(
             default = False,
             doc = "If true, add JSON tags to generated structs",
